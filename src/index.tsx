@@ -2,7 +2,7 @@ import { ActionPanel, List, Action } from "@raycast/api";
 import { useEffect, useState } from "react";
 import { useExec } from "@raycast/utils";
 import { showInFinder } from "@raycast/api";
-import fs from "node:fs";
+//import fs from "node:fs";
 
 export default function Command() {
   const [searchTag, setSearchTag] = useState("");
@@ -15,19 +15,19 @@ export default function Command() {
     }
   }, [data]);
   
-  const getMetaData = (id: string | null) => {
-    if (id) {
-      fs.stat(id, (err, stat) => {
-        console.log(stat)
-      })
-    }
-  }
+  //const getMetaData = (id: string | null) => {
+    //if (id) {
+      //fs.stat(id, (err, stat) => {
+        //console.log(stat)
+      //})
+    //}
+  //}
 
   return (
     <List 
       filtering={false}
       onSearchTextChange={setSearchTag}
-      onSelectionChange={getMetaData}
+      //onSelectionChange={getMetaData}
     >
       {files.map((item) => (
         <List.Item
