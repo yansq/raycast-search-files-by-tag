@@ -5,15 +5,25 @@ import { showInFinder } from "@raycast/api";
 //import fs from "node:fs";
 
 export default function Command() {
-  const [searchTag, setSearchTag] = useState("");
+  const [searchContent, setSearchContent] = useState(["", ""]);
   const [files, setFiles] = useState([]);
-  const { isLoading, data } = useExec(`mdfind 'tag:${searchTag === "" ? "ZZZZZZ" : searchTag}'`, {shell: true, keepPreviousData: true});
+  const { isLoading, data } = useExec(`mdfind 'tag:${searchContent[0] === "" ? "ZZZZZZ" : searchContent[0]}'`, {shell: true, keepPreviousData: true});
 
   useEffect(() => {
     if (data) {
-      setFiles(data.split(/\r?\n/));
+      let files = data.split(/\r?\n/)
+      if (searchContent[1]) {
+        files = files.filter((item) => item.includes(searchContent[1]));
+      }
+      setFiles(files);
     }
-  }, [data]);
+  }, [data, searchContent[1]]);
+
+  const updateSearch = (str: string) => {
+    const newContent = [str.split(" ")[0], str.split(" ")[1]];
+    console.log(newContent);
+    setSearchContent(newContent);
+  }
   
   //const getMetaData = (id: string | null) => {
     //if (id) {
@@ -26,7 +36,7 @@ export default function Command() {
   return (
     <List 
       filtering={false}
-      onSearchTextChange={setSearchTag}
+      onSearchTextChange={updateSearch}
       //onSelectionChange={getMetaData}
     >
       {files.map((item) => (

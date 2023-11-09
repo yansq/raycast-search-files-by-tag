@@ -8,3 +8,8 @@
 - Clone this repo,
 - Run `npm i`,
 - Run `Import Extension` command in Raycast, and select this folder.
+
+## Usage
+
+- Search by `[tag name] + space + [search content]`
+- Click enter key to show selected file in finder
