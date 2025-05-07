@@ -1,4 +1,4 @@
-import { ActionPanel, List, Action } from "@raycast/api";
+import { ActionPanel, List, Action, useNavigation } from "@raycast/api";
 import { useEffect, useState } from "react";
 import { useExec } from "@raycast/utils";
 import { showInFinder } from "@raycast/api";
@@ -6,7 +6,8 @@ import { showInFinder } from "@raycast/api";
 export default function Command() {
   const [searchContent, setSearchContent] = useState(["", ""]);
   const [files, setFiles] = useState<string[]>([]);
-  const { data } = useExec(`mdfind 'tag:${searchContent[0] === "" ? "ZZZZZZ" : searchContent[0]}'`, {shell: true, keepPreviousData: true});
+  const { data } = useExec(`mdfind 'tag:${searchContent[0] === "" ? "ZZZZZZ" : searchContent[0]}'`, { shell: true, keepPreviousData: true });
+  const { pop } = useNavigation();
 
   useEffect(() => {
     if (data) {
@@ -24,7 +25,7 @@ export default function Command() {
   }
 
   return (
-    <List 
+    <List
       filtering={false}
       onSearchTextChange={updateSearch}
     >
@@ -35,7 +36,12 @@ export default function Command() {
           title={item}
           actions={
             <ActionPanel>
-              <Action title="Show in Finder" onAction={() => showInFinder(item)} />
+              <Action title="Show in Finder" onAction={
+                () => {
+                  showInFinder(item);
+                  pop();
+                }
+              } />
             </ActionPanel>
           }
         />
