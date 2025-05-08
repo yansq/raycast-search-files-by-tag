@@ -1,10 +1,8 @@
-import { ActionPanel, List, Action, useNavigation } from "@raycast/api";
+import { ActionPanel, List, Action, showInFinder } from "@raycast/api";
 import { useState } from "react";
 import { useExec } from "@raycast/utils";
-import { showInFinder } from "@raycast/api";
 
 export default function Command() {
-  const { pop } = useNavigation();
   const [[tag, content], setSearchContent] = useState(["", ""]);
   const { data } = useExec("mdfind", [tag && `tag:${tag}`], {
     shell: true,
@@ -35,7 +33,6 @@ export default function Command() {
                 title="Show in Finder"
                 onAction={() => {
                   showInFinder(item);
-                  pop();
                 }}
               />
             </ActionPanel>
